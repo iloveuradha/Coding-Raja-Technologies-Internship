@@ -1,0 +1,51 @@
+<!-- index_movie.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation System</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            
+            $("#movie_name").autocomplete({
+                source: function(request, response) {
+                    
+                    $.ajax({
+                        url: "/movie_names",  
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 2  
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Movie Recommendation System</h1>
+        </header>
+        <form action="/recommend" method="post">
+            <label for="movie_name">Enter Movie Name:</label>
+            <input type="text" id="movie_name" name="movie_name" required>
+            <button type="submit">Get Recommendations</button>
+        </form>
+        <footer>
+            <p>Designed by DHANUSH R</p>
+        </footer>
+    </div>
+</body>
+</html>
